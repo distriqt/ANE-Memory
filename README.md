@@ -28,7 +28,7 @@ if (Memory.isSupported)
 
 private function lowMemoryWarningHandler( event:MemoryEvent ):void
 {
-	message( "low memory warning" );
+	trace( "low memory warning" );
 }
 ```
 
