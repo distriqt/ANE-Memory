@@ -1,0 +1,10 @@
+<platform xmlns="http://ns.adobe.com/air/extension/4.0">
+	<packagedDependencies>
+	</packagedDependencies>
+	<packagedResources>
+	     <packagedResource>
+		    <packageName>com.distriqt.extension.memory</packageName> 
+		    <folderName>distriqt-extension-memory-res</folderName> 
+		</packagedResource>
+	</packagedResources>
+</platform>

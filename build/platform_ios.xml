@@ -1,0 +1,10 @@
+<platform xmlns="http://ns.adobe.com/air/extension/4.0">
+	<copyright>2015 // distriqt</copyright>
+	<sdkVersion>5.1.1</sdkVersion>
+	<linkerOptions>
+		<option>-ios_version_min 5.1.1</option>
+		<option>-w</option>
+	</linkerOptions>
+	<packagedDependencies>
+	</packagedDependencies>
+</platform>
