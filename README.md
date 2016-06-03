@@ -1,7 +1,9 @@
 This extension was built by distriqt // 
 
 
-It was made possible with support by [MovieStarPlanet](http://corporate.moviestarplanet.com/) ![MovieStarPlanet](https://raw.githubusercontent.com/distriqt/ANE-Memory/master/images/msp_logo.png)
+It was made possible with support by [MovieStarPlanet](http://corporate.moviestarplanet.com/) 
+
+![MovieStarPlanet](https://raw.githubusercontent.com/distriqt/ANE-Memory/master/images/msp_logo.png)
 
 
 
