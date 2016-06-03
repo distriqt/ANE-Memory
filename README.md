@@ -1,4 +1,4 @@
-This extension was built by distriqt // 
+This extension was built by [distriqt //](http://airnativeextensions.com) 
 
 
 It was made possible with support by [MovieStarPlanet](http://corporate.moviestarplanet.com/) 
