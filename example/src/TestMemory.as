@@ -16,6 +16,7 @@
 package
 {
 	import com.distriqt.extension.memory.Memory;
+	import com.distriqt.extension.memory.MemoryInfo;
 	import com.distriqt.extension.memory.events.MemoryEvent;
 	
 	import flash.display.Sprite;
@@ -95,6 +96,11 @@ package
 		
 		private function mouseClickHandler( event:MouseEvent ):void
 		{
+			var info:MemoryInfo = Memory.service.getMemoryInfo();
+			
+			message( "available memory = " + info.availableMemory );
+			message( "total memory     = " + info.totalMemory );
+		
 		}
 		
 		

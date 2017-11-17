@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/22.0">
+<application xmlns="http://ns.adobe.com/air/application/27.0">
 	<id>com.distriqt.test</id>
 	<filename>TestMemory</filename>
 	<name>TestMemory</name>
@@ -8,9 +8,9 @@
 	<initialWindow>
 		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
 		<autoOrients>false</autoOrients>
-        <fullScreen>false</fullScreen>
-        <visible>true</visible>
-    </initialWindow>
+		<fullScreen>false</fullScreen>
+		<visible>true</visible>
+	</initialWindow>
 
 	<icon>
 		<image16x16>icons/icon16x16.png</image16x16>
@@ -26,31 +26,30 @@
 	</icon>
 
 	<iPhone>
-        <InfoAdditions><![CDATA[
+		<InfoAdditions><![CDATA[
 			<key>UIDeviceFamily</key>
 			<array>
 				<string>1</string>
 				<string>2</string>
 			</array>
 		]]></InfoAdditions>
-        <requestedDisplayResolution>high</requestedDisplayResolution>
-        <Entitlements>
-            <![CDATA[
-            ]]>
-        </Entitlements>
-    </iPhone>
-    
+		<requestedDisplayResolution>high</requestedDisplayResolution>
+		<Entitlements>
+			<![CDATA[
+			]]>
+		</Entitlements>
+	</iPhone>
+	
 	<android>
-        <manifestAdditions><![CDATA[
+		<manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto">
-			    <uses-permission android:name="android.permission.INTERNET"/>
+				<uses-permission android:name="android.permission.INTERNET"/>
 			</manifest>
 		]]></manifestAdditions>
-    </android>
-    
+	</android>
+	
 	<extensions>
 		<extensionID>com.distriqt.Memory</extensionID>
+	</extensions>
 	
-    </extensions>
-    
 </application>
