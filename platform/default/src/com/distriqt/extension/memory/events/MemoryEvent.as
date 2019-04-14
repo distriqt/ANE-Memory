@@ -64,7 +64,7 @@ package com.distriqt.extension.memory.events
 		/**
 		 *  Constructor
 		 */
-		public function MemoryEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function MemoryEvent( type:String, bubbles:Boolean =false, cancelable:Boolean =false)
 		{
 			super(type, bubbles, cancelable);
 		}
