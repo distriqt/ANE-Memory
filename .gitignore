@@ -1,5 +1,12 @@
-bin-debug
 .metadata
 out
-.idea
+*.zip
+.idea/libraries
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/tasks.xml
+.idea/shelf
 
+
+.idea
+*.iml
