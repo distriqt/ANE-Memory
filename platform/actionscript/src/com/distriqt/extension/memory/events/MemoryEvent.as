@@ -1,16 +1,16 @@
 /**
- *        __       __               __ 
+ *        __       __               __
  *   ____/ /_ ____/ /______ _ ___  / /_
  *  / __  / / ___/ __/ ___/ / __ `/ __/
- * / /_/ / (__  ) / / /  / / /_/ / / 
- * \__,_/_/____/_/ /_/  /_/\__, /_/ 
- *                           / / 
- *                           \/ 
+ * / /_/ / (__  ) / / /  / / /_/ / /
+ * \__,_/_/____/_/ /_/  /_/\__, /_/
+ *                           / /
+ *                           \/
  * http://distriqt.com
  *
  * @file   		MemoryEvent.as
- * @brief  		
- * @author 		"Michael Archbold (ma&#64;distriqt.com)"
+ * @brief
+ * @author 		Michael Archbold (https://github.com/marchbold)
  * @created		19/05/2016
  */
 package com.distriqt.extension.memory.events
@@ -18,7 +18,7 @@ package com.distriqt.extension.memory.events
 	import flash.events.Event;
 	
 	
-	/**	
+	/**
 	 * <p>
 	 * Represents events from the Memory extension.
 	 * </p>
@@ -36,20 +36,18 @@ package com.distriqt.extension.memory.events
 		 * </p>
 		 * <strong>You should respond immediately</strong>
 		 * <p>
-		 * Low-memory warnings are your opportunity to remove references to objects that you do not need. 
+		 * Low-memory warnings are your opportunity to remove references to objects that you do not need.
 		 * Responding to these warnings is crucial because apps that fail to do so are more likely to be terminated.
 		 * </p>
 		 * <p>
-		 * Upon receiving this event, your handler method should respond by immediately freeing up any unneeded memory. 
-		 * Use this event to clear out caches and release images. 
+		 * Upon receiving this event, your handler method should respond by immediately freeing up any unneeded memory.
+		 * Use this event to clear out caches and release images.
 		 * If you have large data structures that are not being used, write those structures to disk and release the in-memory copies of the data.
 		 * </p>
-		 * 
+		 *
 		 * @eventType	memory:lowmemorywarning
 		 */
-		public static const LOW_MEMORY_WARNING	: String = "memory:lowmemorywarning";
-		
-		
+		public static const LOW_MEMORY_WARNING:String = "memory:lowmemorywarning";
 		
 		
 		////////////////////////////////////////////////////////
@@ -64,17 +62,16 @@ package com.distriqt.extension.memory.events
 		/**
 		 *  Constructor
 		 */
-		public function MemoryEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function MemoryEvent( type:String, bubbles:Boolean = false, cancelable:Boolean = false )
 		{
-			super(type, bubbles, cancelable);
+			super( type, bubbles, cancelable );
 		}
 		
 		
 		override public function clone():Event
 		{
-			return new MemoryEvent(type, bubbles, cancelable );
+			return new MemoryEvent( type, bubbles, cancelable );
 		}
-		
 		
 		
 		////////////////////////////////////////////////////////
