@@ -1,1 +1,1 @@
-| com.distriqt.Memory | 4.0.005 |  |  |
+| com.distriqt.Memory | 4.0.008 |  |  |

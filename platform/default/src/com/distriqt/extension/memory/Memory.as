@@ -38,7 +38,7 @@ package com.distriqt.extension.memory
 		//	ID and Version numbers
 		public static const EXT_CONTEXT_ID:String = "com.distriqt.Memory";
 		
-		public static const VERSION:String = "1";
+		public static const VERSION:String = Const.VERSION;
 		public static const VERSION_DEFAULT:String = "0";
 		public static const IMPLEMENTATION_DEFAULT:String = "unknown";
 		
