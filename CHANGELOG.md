@@ -1,5 +1,13 @@
 
 
+###### 2021.03.12 [v4.0.006]
+
+```
+Updated to latest build process  
+dquote> Added Android-x64 support
+```
+
+
 ###### 2019.08.15 [v3.0.002]
 
 ```
