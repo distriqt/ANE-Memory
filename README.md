@@ -1,7 +1,7 @@
 built by [distriqt //](https://airnativeextensions.com) 
 
 
-![Memory](images/promo.png)
+![Memory](https://github.com/distriqt/ANE-Memory/blob/master/images/promo.png)
 
 
 # Memory
