@@ -2,4 +2,4 @@
 
 | Extension | Version | Android Lib | iOS Lib |
 | --- | --- | --- | --- |
-| com.distriqt.Memory | 4.0.10 |  |  |
+| com.distriqt.Memory | 4.0.11 |  |  |
