@@ -1,12 +1,8 @@
 <platform xmlns="http://ns.adobe.com/air/extension/@AIRVERSION@">
-	<copyright>2019 // distriqt</copyright>
+	<copyright>2023 // distriqt</copyright>
 	<packagedDependencies>
 @JARS@
 	</packagedDependencies>
 	<packagedResources>
-	     <packagedResource>
-		    <packageName>@ANDROIDPACKAGE@</packageName> 
-		    <folderName>@ANDROIDRES@</folderName> 
-		</packagedResource>
 	</packagedResources>
 </platform>

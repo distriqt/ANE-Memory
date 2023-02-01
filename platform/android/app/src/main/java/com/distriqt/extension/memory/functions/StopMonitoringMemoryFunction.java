@@ -9,7 +9,7 @@
  * http://distriqt.com
  *
  * @brief
- * @author marchbold
+ * @author Michael Archbold (https://github.com/marchbold)
  * @created 01/03/2017
  */
 package com.distriqt.extension.memory.functions;
@@ -28,7 +28,7 @@ public class StopMonitoringMemoryFunction implements FREFunction
 		FREObject result = null;
 		try
 		{
-			MemoryContext ctx = (MemoryContext)context;
+			MemoryContext ctx = (MemoryContext) context;
 			ctx.controller().stopMonitoringMemory();
 		}
 		catch (Exception e)

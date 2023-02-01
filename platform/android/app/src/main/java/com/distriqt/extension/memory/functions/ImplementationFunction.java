@@ -8,9 +8,9 @@
  *                           \/ 
  * http://distriqt.com
  *
- * @brief  		Implementation function implementation for the Compass ANE
- * @author 		Michael Archbold (ma@distriqt.com)
- * @created		19/05/2016
+ * @brief Implementation function implementation for the Compass ANE
+ * @author Michael Archbold (https://github.com/marchbold)
+ * @created 19/05/2016
  */
 package com.distriqt.extension.memory.functions;
 
@@ -20,18 +20,18 @@ import com.adobe.fre.FREObject;
 import com.adobe.fre.FREWrongThreadException;
 import com.distriqt.extension.memory.MemoryContext;
 
-public class ImplementationFunction implements FREFunction 
+public class ImplementationFunction implements FREFunction
 {
 
 	@Override
-	public FREObject call( FREContext context, FREObject[] args ) 
+	public FREObject call( FREContext context, FREObject[] args )
 	{
 		FREObject result = null;
 		try
 		{
 			result = FREObject.newObject( MemoryContext.IMPLEMENTATION );
 		}
-		catch (FREWrongThreadException e) 
+		catch (FREWrongThreadException e)
 		{
 		}
 		return result;

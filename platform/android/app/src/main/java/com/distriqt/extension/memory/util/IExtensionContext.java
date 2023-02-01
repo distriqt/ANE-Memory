@@ -8,10 +8,10 @@
  *                           \/ 
  * http://distriqt.com
  *
- * @file   		IExtensionContext.java
- * @brief  		
- * @author 		"Michael Archbold (ma&#64;distriqt.com)"
- * @created		03/07/2015
+ * @file IExtensionContext.java
+ * @brief
+ * @author Michael Archbold (https://github.com/marchbold)
+ * @created 03/07/2015
  */
 package com.distriqt.extension.memory.util;
 
@@ -23,5 +23,5 @@ public interface IExtensionContext
 	Activity getActivity();
 
 	void dispatchEvent( String code, String data );
-	
+
 }

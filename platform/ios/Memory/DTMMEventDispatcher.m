@@ -27,7 +27,7 @@
 -(void) dispatch: (NSString*) code data: (NSString*) data
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		FREDispatchStatusEventAsync( context, (const uint8_t*)[code UTF8String], (const uint8_t*)[data UTF8String]);
+		FREDispatchStatusEventAsync( self.context, (const uint8_t*)[code UTF8String], (const uint8_t*)[data UTF8String]);
 	});
 }
 

@@ -8,10 +8,10 @@
  *                           \/ 
  * http://distriqt.com
  *
- * @file   		MemoryContext.java
- * @brief  		Main Context for an ActionScript Native Extension
- * @author 		Michael Archbold
- * @created		19/05/2016
+ * @file MemoryContext.java
+ * @brief Main Context for an ActionScript Native Extension
+ * @author Michael Archbold (https://github.com/marchbold)
+ * @created 19/05/2016
  */
 package com.distriqt.extension.memory;
 
@@ -31,9 +31,8 @@ import java.util.Map;
 
 public class MemoryContext extends FREContext implements IExtensionContext
 {
-	public static String VERSION = "1.0";
+	public static String VERSION        = "1.0";
 	public static String IMPLEMENTATION = "Android";
-	
 
 
 	public MemoryContext()
@@ -42,7 +41,7 @@ public class MemoryContext extends FREContext implements IExtensionContext
 
 
 	@Override
-	public void dispose() 
+	public void dispose()
 	{
 		if (_controller != null)
 		{
@@ -51,19 +50,19 @@ public class MemoryContext extends FREContext implements IExtensionContext
 		}
 	}
 
-	
+
 	@Override
-	public Map<String, FREFunction> getFunctions() 
+	public Map<String, FREFunction> getFunctions()
 	{
 		Map<String, FREFunction> functionMap = new HashMap<String, FREFunction>();
-		
-		functionMap.put( "isSupported", 	new IsSupportedFunction() );
-		functionMap.put( "version",   		new VersionFunction() );
-		functionMap.put( "implementation", 	new ImplementationFunction() );
 
-		functionMap.put( "startMonitoringMemory", 	new StartMonitoringMemoryFunction() );
-		functionMap.put( "stopMonitoringMemory", 	new StopMonitoringMemoryFunction() );
-		functionMap.put( "getMemoryInfo", 			new GetMemoryInfoFunction() );
+		functionMap.put( "isSupported", new IsSupportedFunction() );
+		functionMap.put( "version", new VersionFunction() );
+		functionMap.put( "implementation", new ImplementationFunction() );
+
+		functionMap.put( "startMonitoringMemory", new StartMonitoringMemoryFunction() );
+		functionMap.put( "stopMonitoringMemory", new StopMonitoringMemoryFunction() );
+		functionMap.put( "getMemoryInfo", new GetMemoryInfoFunction() );
 
 		return functionMap;
 	}
@@ -85,11 +84,10 @@ public class MemoryContext extends FREContext implements IExtensionContext
 	}
 
 
-
 	//
 	//	IExtensionContext
 	//
-	
+
 	@Override
 	public void dispatchEvent( final String code, final String data )
 	{

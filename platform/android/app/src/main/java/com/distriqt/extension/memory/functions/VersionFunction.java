@@ -8,9 +8,9 @@
  *                           \/ 
  * http://distriqt.com
  *
- * @brief  		Version function implementation for this ANE
- * @author 		Michael Archbold (ma@distriqt.com)
- * @created		19/05/2016
+ * @brief Version function implementation for this ANE
+ * @author Michael Archbold (https://github.com/marchbold)
+ * @created 19/05/2016
  */
 package com.distriqt.extension.memory.functions;
 
@@ -20,18 +20,18 @@ import com.adobe.fre.FREObject;
 import com.adobe.fre.FREWrongThreadException;
 import com.distriqt.extension.memory.MemoryContext;
 
-public class VersionFunction implements FREFunction 
+public class VersionFunction implements FREFunction
 {
 
 	@Override
-	public FREObject call( FREContext context, FREObject[] args ) 
+	public FREObject call( FREContext context, FREObject[] args )
 	{
 		FREObject result = null;
 		try
 		{
 			result = FREObject.newObject( MemoryContext.VERSION );
 		}
-		catch (FREWrongThreadException e) 
+		catch (FREWrongThreadException e)
 		{
 		}
 		return result;
