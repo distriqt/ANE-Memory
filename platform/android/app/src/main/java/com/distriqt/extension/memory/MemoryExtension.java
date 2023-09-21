@@ -20,9 +20,7 @@ import com.adobe.fre.FREExtension;
 
 public class MemoryExtension implements FREExtension
 {
-	public static FREContext context;
-
-	public static String ID = "com.distriqt.Memory";
+	public static MemoryContext context;
 
 
 	@Override
@@ -36,7 +34,11 @@ public class MemoryExtension implements FREExtension
 	@Override
 	public void dispose()
 	{
-		context = null;
+		if (context != null)
+		{
+			context.dispose();
+			context = null;
+		}
 	}
 
 

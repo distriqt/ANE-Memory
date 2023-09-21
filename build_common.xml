@@ -4,13 +4,6 @@
     
 	<dirname property="common.basedir" file="${ant.file.common}" />
 
-	<property file="${common.basedir}/../../build_config/version.config" description="grp version properties" />
-	<property file="${common.basedir}/build_config/version.config" description="build version properties" />
-	<property file="${common.basedir}/build_config/build.config" description="build properties" />
-	<property file="${common.basedir}/build_config/global.config" description="global properties" />
-
-	<property name="version.grp" value="${version_grp_major}.${version_grp_minor}.${version_grp_build}" />
-	
     <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 	<target name="bootstrap">
 		<mkdir dir="${user.home}/.ant/lib"/>
@@ -20,6 +13,19 @@
 		<get dest="${user.home}/.ant/lib/bsf.jar" src="http://search.maven.org/remotecontent?filepath=bsf/bsf/2.4.0/bsf-2.4.0.jar"/>
 		<get dest="${user.home}/.ant/lib/commons-logging-api.jar" src="http://search.maven.org/remotecontent?filepath=commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/> 
 	</target>
+
+	<var file="${common.basedir}/build_config/version.config" description="version properties" />
+	<trycatch>
+		<try>
+			<var file="${common.basedir}/../../build_config/version.config" description="grp version properties"  />
+		</try>
+		<catch>
+		</catch>
+	</trycatch>
+	<property file="${common.basedir}/build_config/build.config" description="build properties" />
+	<property file="${common.basedir}/build_config/global.config" description="global properties" />
+
+	<property name="version.grp" value="${version_grp_major}.${version_grp_minor}.${version_grp_build}" />
 
 
 	<!-- PLATFORM INFORMATION -->
@@ -80,8 +86,8 @@
 		<attribute name="name" />
 		<attribute name="value" /> 
 		<![CDATA[
-		project.setProperty( attributes.get( "name" ),
-							 attributes.get( "value" ).replaceAll( "\\.", "" ) );
+		project.setNewProperty( attributes.get( "name" ),
+							 	attributes.get( "value" ).replaceAll( "\\.", "" ) );
 		]]>
 	</scriptdef>
 
@@ -200,5 +206,16 @@
 	<property name="targetSdkVersion" value="${android.targetSdkVersion}" />
 	<var name="android.targetSdkVersion" unset="true" />
 	<property name="android.targetSdkVersion" value="${targetSdkVersion}"  />
+
+
+	<titlecase name="project.grptitle" value="${project.grp}" />
+	<titlecase name="project.nametitle" value="${project.name}" />
+
+	<cleanchars name="ios.name" value="${project.grptitle}${project.nametitle}" />
+
+	<cleanchars name="windows.name" value="${project.grp}${project.name}" />
+
+	<cleanchars name="macos.name" value="${project.grptitle}${project.nametitle}" />
+
 
 </project>

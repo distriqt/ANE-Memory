@@ -6,83 +6,78 @@
  * \__,_/_/____/_/ /_/  /_/\__, /_/
  *                           / /
  *                           \/
- * http://distriqt.com
+ * https://distriqt.com
  *
- * @file   		Memory.as
- * @brief  		Memory Native Extension
  * @author 		Michael Archbold (https://github.com/marchbold)
  * @created		19/05/2016
+ * @copyright	http://distriqt.com/copyright/license.txt
+ *
  */
 package com.distriqt.extension.memory
 {
 	import com.distriqt.extension.memory.events.MemoryEvent;
-	
+
 	import flash.events.ErrorEvent;
 	import flash.events.EventDispatcher;
 	import flash.events.StatusEvent;
 	import flash.external.ExtensionContext;
-	
-	
+
 	/**
 	 * @eventType com.distriqt.extension.memory.events.MemoryEvent.LOW_MEMORY_WARNING
 	 */
 	[Event(name="memory:lowmemorywarning", type="com.distriqt.extension.memory.events.MemoryEvent")]
-	
-	
+
+
 	/**
-	 * <p>
 	 * This class represents the memory extension.
-	 * </p>
 	 */
 	public final class Memory extends EventDispatcher
 	{
 		////////////////////////////////////////////////////////
 		//	CONSTANTS
 		//
-		
+
 		//
 		//	ID and Version numbers
-		public static const EXT_CONTEXT_ID:String = "com.distriqt.Memory";
-		
+		public static const EXT_CONTEXT_ID:String = Const.EXTENSIONID;
+
 		public static const VERSION:String = Const.VERSION;
 		private static const VERSION_DEFAULT:String = "0";
 		private static const IMPLEMENTATION_DEFAULT:String = "unknown";
-		
+
 		//
 		//	Error Messages
 		private static const ERROR_CREATION:String = "The native extension context could not be created";
 		private static const ERROR_SINGLETON:String = "The singleton has already been created. Use Memory.service to access the functionality";
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	VARIABLES
 		//
-		
+
 		//
 		// Singleton variables
 		private static var _instance:Memory;
 		private static var _shouldCreateInstance:Boolean = false;
 		private static var _extContext:ExtensionContext = null;
-		
-		
-		private var _extensionId:String = "";
-		
-		
+
+
+
 		////////////////////////////////////////////////////////
 		//	SINGLETON INSTANCE
 		//
-		
+
 		/**
 		 * The singleton instance of the Memory class.
-		 * @throws Error If there was a problem creating or accessing the extension, or if the key is invalid
+		 * @throws Error If there was a problem creating or accessing the extension
 		 */
 		public static function get service():Memory
 		{
 			createInstance();
 			return _instance;
 		}
-		
-		
+
+
 		/**
 		 * @private
 		 * Creates the actual singleton instance
@@ -96,12 +91,12 @@ package com.distriqt.extension.memory
 				_shouldCreateInstance = false;
 			}
 		}
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	FUNCTIONALITY
 		//
-		
+
 		/**
 		 * Constructor
 		 *
@@ -113,7 +108,6 @@ package com.distriqt.extension.memory
 			{
 				try
 				{
-					_extensionId = EXT_CONTEXT_ID;
 					_extContext = ExtensionContext.createExtensionContext( EXT_CONTEXT_ID, null );
 					_extContext.addEventListener( StatusEvent.STATUS, extension_statusHandler, false, 0, true );
 				}
@@ -127,14 +121,12 @@ package com.distriqt.extension.memory
 				throw new Error( ERROR_SINGLETON );
 			}
 		}
-		
-		
+
+
 		/**
-		 * <p>
 		 * Disposes the extension and releases any allocated resources. Once this function
 		 * has been called, a call to <code>init</code> is neccesary again before any of the
 		 * extensions functionality will work.
-		 * </p>
 		 */
 		public function dispose():void
 		{
@@ -146,8 +138,8 @@ package com.distriqt.extension.memory
 			}
 			_instance = null;
 		}
-		
-		
+
+
 		/**
 		 * Whether the current device supports the extensions functionality
 		 */
@@ -156,26 +148,20 @@ package com.distriqt.extension.memory
 			createInstance();
 			return _extContext.call( "isSupported" );
 		}
-		
-		
+
+
 		/**
-		 * <p>
 		 * The version of this extension.
-		 * </p>
-		 * <p>
-		 * This should be of the format, MAJOR.MINOR.BUILD
-		 * </p>
+		 * This should be of the format, <code>MAJOR.MINOR.BUILD</code>
 		 */
 		public function get version():String
 		{
 			return VERSION;
 		}
-		
-		
+
+
 		/**
-		 * <p>
 		 * The native version string of the native extension.
-		 * </p>
 		 */
 		public function get nativeVersion():String
 		{
@@ -188,10 +174,9 @@ package com.distriqt.extension.memory
 			}
 			return VERSION_DEFAULT;
 		}
-		
-		
+
+
 		/**
-		 * <p>
 		 * The implementation currently in use.
 		 * This should be one of the following depending on the platform in use and the
 		 * functionality supported by this extension:
@@ -201,7 +186,6 @@ package com.distriqt.extension.memory
 		 * <li><code>default</code></li>
 		 * <li><code>unknown</code></li>
 		 * </ul>
-		 * </p>
 		 */
 		public function get implementation():String
 		{
@@ -214,21 +198,18 @@ package com.distriqt.extension.memory
 			}
 			return IMPLEMENTATION_DEFAULT;
 		}
-		
-		
+
+
 		//
 		//
 		//	EXTENSION FUNCTIONALITY
 		//
 		//
-		
+
 		/**
-		 * <p>
 		 * Access the native memory information
-		 * </p>
 		 *
 		 * @return A <code>MemoryInfo</code> instance containing the current memory statistics
-		 *
 		 */
 		public function getMemoryInfo():MemoryInfo
 		{
@@ -241,10 +222,11 @@ package com.distriqt.extension.memory
 			}
 			return null;
 		}
-		
-		
+
+
 		override public function addEventListener( type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false ):void
 		{
+			super.addEventListener( type, listener, useCapture, priority, useWeakReference );
 			if (type == MemoryEvent.LOW_MEMORY_WARNING)
 			{
 				try
@@ -256,35 +238,50 @@ package com.distriqt.extension.memory
 				}
 			}
 		}
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	INTERNALS
 		//
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	EVENT HANDLERS
 		//
-		
+
 		private function extension_statusHandler( event:StatusEvent ):void
 		{
-			switch (event.code)
+			var data:Object;
+			try
 			{
-				case "extension:error":
+				switch (event.code)
 				{
-					dispatchEvent( new ErrorEvent( ErrorEvent.ERROR, false, false, event.level ) );
-					break;
+					case "extension:error":
+					{
+						dispatchEvent( new ErrorEvent( ErrorEvent.ERROR, false, false, event.level ) );
+						break;
+					}
+
+					case MemoryEvent.LOW_MEMORY_WARNING:
+					{
+						data = JSON.parse( event.level );
+						var level:String = data.hasOwnProperty( "level" ) ? data.level : MemoryWarningLevel.UNKNOWN;
+						dispatchEvent(
+								new MemoryEvent(
+										MemoryEvent.LOW_MEMORY_WARNING,
+										level
+								)
+						);
+						break;
+					}
+
 				}
-				
-				case MemoryEvent.LOW_MEMORY_WARNING:
-				{
-					dispatchEvent( new MemoryEvent( MemoryEvent.LOW_MEMORY_WARNING ) );
-					break;
-				}
-				
+
+			}
+			catch (e:Error)
+			{
 			}
 		}
-		
+
 	}
 }

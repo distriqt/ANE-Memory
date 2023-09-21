@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="all" name="ane.build">
+<project default="all" name="ane.build" xmlns:if="ant:if">
 
 	<import file="build_common.xml" />
 	<property file="${common.basedir}/build_config/build.config" description="build properties" />
@@ -26,14 +26,19 @@
 	//
 	-->
 
+
+
 	<target name="version">
+		<antcall target="version_increment" if:true="${version.autoincrement}" />
 		<antcall target="version_write" />
 	</target>
 
-	<target name="version_increment" if="${version.autoincrement}">
+	<target name="version_increment">
 		<propertyfile file="./build_config/version.config">
 			<entry key="version_build" type="int" operation="+" value="1" />
 		</propertyfile>
+		<var name="version_build" value="" unset="true"/>
+		<var file="${common.basedir}/build_config/version.config" description="build version properties" />
 	</target>
 
 	<target name="version_write">
@@ -198,11 +203,23 @@ _site
 
 	<target name="airpackage">
 		<iterate target="deploy" directory="package" />
+		<if>
+			<available file="package/variants" type="dir"/>
+			<then>
+				<iterate target="deploy" directory="package/variants" />
+			</then>
+		</if>
 	</target>
 
 
 	<target name="clean_airpackage">
 		<iterate target="clean" directory="package" />
+		<if>
+			<available file="package/variants" type="dir"/>
+			<then>
+				<iterate target="clean" directory="package/variants" />
+			</then>
+		</if>
 	</target>
 
 

@@ -31,9 +31,6 @@ import java.util.Map;
 
 public class MemoryContext extends FREContext implements IExtensionContext
 {
-	public static String VERSION        = "1.0";
-	public static String IMPLEMENTATION = "Android";
-
 
 	public MemoryContext()
 	{
@@ -97,6 +94,7 @@ public class MemoryContext extends FREContext implements IExtensionContext
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 

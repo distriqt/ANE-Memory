@@ -14,15 +14,26 @@
  */
 package com.distriqt.extension.memory.events;
 
+import org.json.JSONObject;
+
 public class MemoryEvent
 {
 
 	public static final String LOWMEMORYWARNING	 = "memory:lowmemorywarning";
 
 
-	public static String formatForEvent()
+	public static String formatForEvent( String type )
 	{
-		return "";
+		try
+		{
+			JSONObject e = new JSONObject();
+			e.putOpt( "type", type );
+			return e.toString();
+		}
+		catch (Exception e)
+		{
+		}
+		return "{}";
 	}
 
 

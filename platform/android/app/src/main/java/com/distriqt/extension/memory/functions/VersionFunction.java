@@ -18,7 +18,7 @@ import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
 import com.adobe.fre.FREWrongThreadException;
-import com.distriqt.extension.memory.MemoryContext;
+import com.distriqt.extension.memory.Memory;
 
 public class VersionFunction implements FREFunction
 {
@@ -29,7 +29,7 @@ public class VersionFunction implements FREFunction
 		FREObject result = null;
 		try
 		{
-			result = FREObject.newObject( MemoryContext.VERSION );
+			result = FREObject.newObject( Memory.VERSION );
 		}
 		catch (FREWrongThreadException e)
 		{

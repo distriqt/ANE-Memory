@@ -13,7 +13,7 @@
 
 +(NSString*) formatForEvent
 {
-	return @"";
+	return @"{}";
 }
 
 

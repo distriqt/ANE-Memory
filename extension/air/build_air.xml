@@ -27,7 +27,6 @@
 	//
 	-->
 
-	<!-- <lower name="project.packagename" value="${project.name}" /> -->
 	<grppackagename name="project.packagename" prefix="" grp="${project.grp}" projectname="${project.name}" />
 
 	<property name="actionscript.name" value="distriqt.extension.${project.packagename}.swc" />
@@ -39,11 +38,6 @@
 	<property name="android.extclass" value="${package.name}.${android.extclassname}" />
 	<packagetores name="android.resources" value="distriqt-extension-${project.packagename}-res" />
 
-	<cleanchars name="ios.name" value="${project.grp}${project.name}" />
-
-	<cleanchars name="windows.name" value="${project.grp}${project.name}" />
-
-	<cleanchars name="macos.name" value="${project.grp}${project.name}" />
 
 	<taskdef resource="flexTasks.tasks" classpath="${air.sdk}/ant/lib/flexTasks.jar" />
 
@@ -373,6 +367,10 @@
 			</sequential>
 		</for>
 
+		<exec executable="xcrun" spawn="false" failonerror="true" outputproperty="bitcode_strip.cmd" >
+			<arg line="-sdk iphoneos --find bitcode_strip" />
+		</exec>
+
 		<!-- Copy Dynamic frameworks to output -->
 		<for param="frameworkname">
 			<path>
@@ -422,6 +420,41 @@
 			</resources>
 		</copy>
 
+		<condition property="dynamicframeworks.process">
+			<and>
+				<available file="${output.dir}/${variant}/${ios.frameworks_dir}" type="dir"/>
+				<istrue value="${isMacOS}" />
+			</and>
+		</condition>
+
+		<!-- Strip bitcode from dynamic frameworks -->
+		<for param="frameworkpath" if:true="${dynamicframeworks.process}" >
+			<path>
+				<dirset dir="${output.dir}/${variant}/${ios.frameworks_dir}" >
+					<include name="*.framework" />
+				</dirset>
+			</path>
+			<sequential>
+				<var name="frameworklib" unset="true" />
+				<if>
+					<available file="@{frameworkpath}/Info.plist" />
+					<then>
+						<exec executable="defaults" failonerror="true" outputproperty="frameworklib">
+							<arg line="read @{frameworkpath}/Info.plist CFBundleExecutable" />
+						</exec>
+					</then>
+					<else>
+						<basename property="frameworklib" file="@{frameworkpath}" suffix=".framework" />
+					</else>
+				</if>
+
+				<exec executable="${bitcode_strip.cmd}" failonerror="true">
+					<arg line="@{frameworkpath}/${frameworklib} -r -o @{frameworkpath}/${frameworklib}" />
+				</exec>
+
+			</sequential>
+		</for>
+		
 
 		<!-- Strip other platforms from frameworks -->
 		<for param="frameworkpath" if:true="${isMacOS}">
@@ -449,6 +482,12 @@
 				<exec executable="lipo" failonerror="false">
 					<arg line="-remove x86_64 -output @{frameworkpath}/${frameworklib} @{frameworkpath}/${frameworklib}" />
 				</exec>
+
+				<!-- Strip bitcode -->
+				<exec executable="${bitcode_strip.cmd}" failonerror="true">
+					<arg line="@{frameworkpath}/${frameworklib} -r -o @{frameworkpath}/${frameworklib}" />
+				</exec>
+
 			</sequential>
 		</for>
 		<condition property="iOSSimulatorandmacOS">
@@ -518,6 +557,8 @@
 				</exec> -->
 			</sequential>
 		</for>
+
+		
 
 		<delete failonerror="false">
 			<fileset dir="${ios.dir}/${ios.build_dir}/${variant}/${ios.iphoneos_dir}">
@@ -623,7 +664,7 @@
 
 		<delete dir="${android.dir}/${output.tmpdir}" />
 
-		<fileset dir="${common.basedir}/${android.dir}/externals/" erroronmissingdir="false" id="filesetexternals">
+		<fileset dir="${common.basedir}/${android.dir}/externals/${variant}" erroronmissingdir="false" id="filesetexternals">
 			<include name="*.aar" />
 		</fileset>
 		<fileset dir="${common.basedir}/${android.dir}/libs/${variant}" erroronmissingdir="false" id="filesetvariant">
@@ -654,7 +695,7 @@
 
 
 		<copy todir="${android.dir}/${android.outputdir}">
-			<fileset dir="${common.basedir}/${android.dir}/externals/" erroronmissingdir="false">
+			<fileset dir="${common.basedir}/${android.dir}/externals/${variant}" erroronmissingdir="false">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
@@ -704,7 +745,7 @@
 					<replacestring from="@ANDROIDRES@" to="${android.resources}" />
 					<replacestring from="@JARS@" to="${platform.android.jars.str}" />
 					<replacestring from="@VERSION@" to="${version}" />
-					<replacestring from="@VERSIONEXT@" to="${version.grp}" />
+					<replacestring from="@VERSIONEXT@" to="${version.android}" />
 					<replacestring from="@VERSIONGROUP@" to="${version.grp}" />
 				</tokenfilter>
 			</filterchain>
@@ -734,6 +775,7 @@
 			<fileset dir="${android.dir}/${output.tmpdir}/libs/">
 				<include name="*.jar" />
 			</fileset>
+			<globmapper from="*" to="${explode_aar_name}-*"/>
 		</copy>
 
 		<copy overwrite="true" includeEmptyDirs="false" failonerror="false" quiet="true" todir="${output.dir}/${variant}/${android.assets_dir}" >

@@ -6,30 +6,28 @@
  * \__,_/_/____/_/ /_/  /_/\__, /_/
  *                           / /
  *                           \/
- * http://distriqt.com
+ * https://distriqt.com
  *
- * @file   		MemoryEvent.as
- * @brief
  * @author 		Michael Archbold (https://github.com/marchbold)
  * @created		19/05/2016
+ * @copyright	https://distriqt.com/copyright/license.txt
  */
 package com.distriqt.extension.memory.events
 {
+	import com.distriqt.extension.memory.MemoryWarningLevel;
+
 	import flash.events.Event;
-	
-	
+
 	/**
-	 * <p>
 	 * Represents events from the Memory extension.
-	 * </p>
 	 */
 	public class MemoryEvent extends Event
 	{
 		////////////////////////////////////////////////////////
 		//	CONSTANTS
 		//
-		
-		
+
+
 		/**
 		 * <p>
 		 * Dispatched when the system dispatches a low-memory warning to your app.
@@ -48,41 +46,53 @@ package com.distriqt.extension.memory.events
 		 * @eventType	memory:lowmemorywarning
 		 */
 		public static const LOW_MEMORY_WARNING:String = "memory:lowmemorywarning";
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	VARIABLES
 		//
-		
-		
+
+
+		/**
+		 * The context of the memory warning, giving a hint of the amount of trimming the application may like to perform.
+		 * <br/>
+		 *
+		 * On platforms that don't support additional level information this will be "unknown"
+		 *
+		 * @see com.distriqt.extension.memory.MemoryWarningLevel
+		 */
+		public var level:String = MemoryWarningLevel.UNKNOWN;
+
+
 		////////////////////////////////////////////////////////
 		//	FUNCTIONALITY
 		//
-		
+
 		/**
 		 *  Constructor
 		 */
-		public function MemoryEvent( type:String, bubbles:Boolean = false, cancelable:Boolean = false )
+		public function MemoryEvent( type:String, level:String = MemoryWarningLevel.UNKNOWN, bubbles:Boolean = false, cancelable:Boolean = false )
 		{
 			super( type, bubbles, cancelable );
+			this.level = level;
 		}
-		
-		
+
+
 		override public function clone():Event
 		{
-			return new MemoryEvent( type, bubbles, cancelable );
+			return new MemoryEvent( type, level, bubbles, cancelable );
 		}
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	INTERNALS
 		//
-		
-		
+
+
 		////////////////////////////////////////////////////////
 		//	EVENT HANDLERS
 		//
-		
-		
+
+
 	}
 }

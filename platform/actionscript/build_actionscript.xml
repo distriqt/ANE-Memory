@@ -39,7 +39,8 @@
 			<filterchain>
 				<tokenfilter>
 					<replacestring from="@VERSION@" to="${version}" />
-					<replacestring from="@VERSIONEXT@" to="${version.grp}" />
+					<replacestring from="@VERSIONEXT@" to="${version.android}" />
+					<replacestring from="@VERSIONGROUP@" to="${version.grp}" />
 					<replacestring from="@EXTENSIONID@" to="${output.name}" />
 					<replacestring from="@PACKAGE@" to="${package.name}" />
 				</tokenfilter>
@@ -104,9 +105,9 @@
 			<arg line="-source-path ${actionscript.basedir}/src" />
 			<arg line="-window-title 'distriqt // ${project.name}'" />
 			<arg line="-main-title 'distriqt // ${project.name} Native Extension Documentation'" if:true="${isWindows}" />
-			<arg line="-main-title '&lt;a href=&quot;http://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; // ${project.name} Native Extension Documentation'" if:true="${isMacOS}" />
+			<arg line="-main-title '&lt;a href=&quot;https://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; // ${project.name} Native Extension Documentation'" if:true="${isMacOS}" />
 			<arg line="-footer 'Copyright distriqt 2016'" if:true="${isWindows}" />
-			<arg line="-footer 'Copyright &lt;a href=&quot;http://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; 2016'" if:true="${isMacOS}" />
+			<arg line="-footer 'Copyright &lt;a href=&quot;https://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; 2016'" if:true="${isMacOS}" />
 			<arg line="-doc-sources ${actionscript.basedir}/src" />
 			<arg line="-output ${common.basedir}/${output.docs}" />
 			<arg line="-lenient" />
@@ -126,9 +127,9 @@
 			<arg line="-source-path ${actionscript.basedir}/src" />
 			<arg line="-window-title 'distriqt // ${project.name}'" />
 			<arg line="-main-title 'distriqt // ${project.name} Native Extension Documentation'" if:true="${isWindows}" />
-			<arg line="-main-title '&lt;a href=&quot;http://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; // ${project.name} Native Extension Documentation'" if:true="${isMacOS}" />
+			<arg line="-main-title '&lt;a href=&quot;https://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; // ${project.name} Native Extension Documentation'" if:true="${isMacOS}" />
 			<arg line="-footer 'Copyright distriqt 2016'" if:true="${isWindows}" />
-			<arg line="-footer 'Copyright &lt;a href=&quot;http://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; 2016'" if:true="${isMacOS}" />
+			<arg line="-footer 'Copyright &lt;a href=&quot;https://distriqt.com&quot; target=&quot;_top&quot; &gt;distriqt&lt;/a&gt; 2016'" if:true="${isMacOS}" />
 			<arg line="-doc-sources ${actionscript.basedir}/src" />
 			<arg line="-output ${common.basedir}/${output.docs}/.embedded" />
 			<arg line="-lenient" />

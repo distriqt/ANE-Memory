@@ -14,11 +14,7 @@
 	//
 	-->
 
-	<lower name="project.packagename" value="${project.name}" />
-
 	<dirname property="ios.basedir" file="${ant.file.ios}" />
-
-	<cleanchars name="ios.name" value="${project.grp}${project.name}" />
 
 	<!-- Check macOS and iOS enabled -->
 	<condition property="ios.shouldbuild" else="false">
@@ -79,6 +75,7 @@
 		<exec executable="${ios.xcode_buildpath}" resultproperty="ret1">
 			<arg line="-project ${ios.basedir}/${ios.name}.xcodeproj" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<arg line="-configuration ${ios.xcode_build}" />
 			<arg line="-alltargets" />
 			<arg value="build" />
@@ -98,6 +95,7 @@
 		<exec executable="${ios.xcode_buildpath}" resultproperty="ret1">
 			<arg line="-workspace ${ios.basedir}/${ios.name}.xcworkspace" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<arg line="-configuration ${ios.xcode_build}" />
 			<arg line="-scheme ${ios.name}" />
 			<arg value="build" />
@@ -119,6 +117,7 @@
 		<exec executable="${ios.xcode_buildpath}" resultproperty="ret1">
 			<arg line="-project ${ios.basedir}/${ios.name}.xcodeproj" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<!-- <arg line="BITCODE_GENERATION_MODE=bitcode" /> -->
 			<!-- <arg line="OTHER_CFLAGS='$(inherited) -fembed-bitcode'" /> -->
 			<arg line="OTHER_CFLAGS='$(inherited) -fno-objc-msgsend-selector-stubs'" />
@@ -141,6 +140,7 @@
 		<exec executable="${ios.xcode_buildpath}" resultproperty="ret1">
 			<arg line="-workspace ${ios.basedir}/${ios.name}.xcworkspace" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<!-- <arg line="BITCODE_GENERATION_MODE=bitcode" /> -->
 			<!-- <arg line="OTHER_CFLAGS='$(inherited) -fembed-bitcode'" /> -->
 			<arg line="OTHER_CFLAGS='$(inherited) -fno-objc-msgsend-selector-stubs'" />
@@ -164,6 +164,7 @@
 		<exec executable="${ios.xcode_buildpath}" if:true="${tvos.enabled}">
 			<arg line="-project ${ios.basedir}/${ios.name}.xcodeproj" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<!-- <arg line="BITCODE_GENERATION_MODE=bitcode" /> -->
 			<!-- <arg line="OTHER_CFLAGS='$(inherited) -fembed-bitcode'" /> -->
 			<arg line="OTHER_CFLAGS='$(inherited) -fno-objc-msgsend-selector-stubs'" />
@@ -178,6 +179,7 @@
 		<exec executable="${ios.xcode_buildpath}" if:true="${tvos.enabled}">
 			<arg line="-workspace ${ios.basedir}/${ios.name}.xcworkspace" />
 			<arg line="ONLY_ACTIVE_ARCH=NO" />
+			<arg line="ENABLE_BITCODE=NO" />
 			<!-- <arg line="BITCODE_GENERATION_MODE=bitcode" /> -->
 			<!-- <arg line="OTHER_CFLAGS='$(inherited) -fembed-bitcode'" /> -->
 			<arg line="OTHER_CFLAGS='$(inherited) -fno-objc-msgsend-selector-stubs'" />

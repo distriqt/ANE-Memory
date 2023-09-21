@@ -34,14 +34,11 @@ public class MemoryController implements ComponentCallbacks2
 	private static final String TAG = MemoryController.class.getSimpleName();
 
 
-
 	////////////////////////////////////////////////////////////
 	//	VARIABLES
 	//
 
 	private IExtensionContext _extContext;
-
-
 
 
 	////////////////////////////////////////////////////////////
@@ -51,8 +48,6 @@ public class MemoryController implements ComponentCallbacks2
 	public MemoryController( IExtensionContext extensionContext )
 	{
 		_extContext = extensionContext;
-
-
 	}
 
 
@@ -74,12 +69,11 @@ public class MemoryController implements ComponentCallbacks2
 		Log.d( TAG, "getMemoryInfo()" );
 
 		ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
-		ActivityManager activityManager = (ActivityManager)_extContext.getActivity().getSystemService( Context.ACTIVITY_SERVICE );
+		ActivityManager activityManager = (ActivityManager) _extContext.getActivity().getSystemService( Context.ACTIVITY_SERVICE );
 		activityManager.getMemoryInfo( info );
 
 		return info;
 	}
-
 
 
 	public void startMonitoringMemory()
@@ -88,6 +82,7 @@ public class MemoryController implements ComponentCallbacks2
 		_extContext.getActivity().registerComponentCallbacks( this );
 	}
 
+
 	public void stopMonitoringMemory()
 	{
 		Log.d( TAG, "stopMonitoringMemory()" );
@@ -95,17 +90,16 @@ public class MemoryController implements ComponentCallbacks2
 	}
 
 
-
-
 	//
 	//	ComponentCallbacks2
 	//
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig)
+	public void onConfigurationChanged( Configuration newConfig )
 	{
 		Log.d( TAG, "onConfigurationChanged()" );
 	}
+
 
 	@Override
 	public void onLowMemory()
@@ -113,15 +107,41 @@ public class MemoryController implements ComponentCallbacks2
 		Log.d( TAG, "onLowMemory()" );
 	}
 
-	@Override
-	public void onTrimMemory(int level)
-	{
-		Log.d( TAG, String.format( "onTrimMemory( %d )", level ));
 
-		_extContext.dispatchEvent( MemoryEvent.LOWMEMORYWARNING, MemoryEvent.formatForEvent() );
+	@Override
+	public void onTrimMemory( int level )
+	{
+		Log.d( TAG, String.format( "onTrimMemory( %d )", level ) );
+		_extContext.dispatchEvent(
+				MemoryEvent.LOWMEMORYWARNING,
+				MemoryEvent.formatForEvent(
+						trimMemoryLevelToString( level )
+				)
+		);
 	}
 
 
+	private String trimMemoryLevelToString( int level )
+	{
+		switch (level)
+		{
+			case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
+				return "ui_hidden";
+			case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+				return "running_moderate";
+			case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+				return "running_low";
+			case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+				return "running_critical";
+			case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
+				return "background";
+			case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+				return "moderate";
+			case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+				return "complete";
+		}
+		return "unknown";
+	}
 
 
 }

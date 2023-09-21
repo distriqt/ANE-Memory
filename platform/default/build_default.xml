@@ -39,7 +39,8 @@
 			<filterchain>
 				<tokenfilter>
 					<replacestring from="@VERSION@" to="${version}" />
-					<replacestring from="@VERSIONEXT@" to="${version.grp}" />
+					<replacestring from="@VERSIONEXT@" to="${version.android}" />
+					<replacestring from="@VERSIONGROUP@" to="${version.grp}" />
 					<replacestring from="@EXTENSIONID@" to="${output.name}" />
 					<replacestring from="@PACKAGE@" to="${package.name}" />
 				</tokenfilter>

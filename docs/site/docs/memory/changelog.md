@@ -1,5 +1,13 @@
 
 
+###### 2023.09.22 [v4.2.1]
+
+```
+fix(actionscript): correct event listener not being added correctly which prevented events from being dispatched (resolves #7)
+feat(android): add level associated with a MemoryEvent.LOW_MEMORY_WARNING event (resolves #8)
+```
+
+
 ###### 2023.02.01 [v4.1.0]
 
 ```

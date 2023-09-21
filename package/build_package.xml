@@ -4,16 +4,14 @@
 	xmlns:if="ant:if"
 	xmlns:unless="ant:unless"> 
 
-
-	
-	<import file="../build_common.xml" />
+	<dirname property="airpackage.basedir" file="${ant.file.airpackage}" />
+	<property file="${airpackage.basedir}/build.config" description="build properties" />
+	<import file="${build.common}" />
 
 	<property name="version.release" value="${version_release_major}.${version_release_minor}.${version_release_build}" if:set="version_release_major" />
 	<property name="version.release" value="${version_major}.${version_minor}.${version_build}" />
 	<property name="version" value="${version_major}.${version_minor}.${version_build}" />
 	<lower name="project.namelower" value="${project.name}" />
-
-	<dirname property="airpackage.basedir" file="${ant.file.airpackage}" />
 
 	<tstamp>
 		<format property="publish_date" pattern="yyyy-MM-dd" locale="en,UK" />
@@ -24,32 +22,19 @@
 	</tstamp>
 
 	<target name="clean" >
-		<antcall target="clean_variant" >
-			<param name="variant.basedir" value="${airpackage.basedir}" />
-		</antcall>
-		<foreach target="clean_variant" param="variant.basedir" inheritall="true" >
-			<path>
-				<dirset dir="${airpackage.basedir}">
-					<include name="variants/*"/>
-				</dirset>
-			</path>
-		</foreach>
-	</target>
-
-	<target name="clean_variant" >
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${variant.basedir}">
+			<fileset dir="${airpackage.basedir}">
 				<include name="**/build/**" />
 				<include name="**/*.airpackage" />
 			</fileset>
 		</delete>
 		<!-- delete all platform/android/subdirectories but not platform/android/AndroidManifest.xml -->
 		<if>
-			<available file="${variant.basedir}/platforms/android" type="dir" />
+			<available file="${airpackage.basedir}/platforms/android" type="dir" />
 			<then>
 				<for param="androidDir" >
 					<path>
-						<dirset dir="${variant.basedir}/platforms/android" >
+						<dirset dir="${airpackage.basedir}/platforms/android" >
 							<include name="*"/>
 						</dirset>
 					</path>
@@ -63,7 +48,7 @@
 
 
 	<target name="copy_template" >
-		<copy todir="${airpackage.sourcedir}/${output.dir}" overwrite="true" >
+		<copy todir="${airpackage.basedir}/${output.dir}" overwrite="true" >
 			<fileset dir="${common.basedir}/${airpackage.tmpl}">
 				<!-- Exclude these as they are just templates for manual integration -->
 				<exclude name="assets/**" /> 
@@ -81,7 +66,7 @@
 					<replacestring from="@PACKAGE@" to="${package.name}"/>
 					<replacestring from="@DATE@" to="${publish_date}"/>
 					<replacestring from="@DATETIME@" to="${publish_date_time}"/>
-					<replacestring from="@VARIANT@" to="${airpackage.variant}"/>
+					<replacestring from="@VARIANT@" to="${airpackage.variantname}"/>
 					<replacestring from="@ANDROIDPACKAGE@" to="${package.name}"/>
 					<replacestring from="@ANDROIDMINSDK@" to="${android.minSdkVersion}"/>
 					<replacestring from="@ANDROIDTARGETSDK@" to="${android.targetSdkVersion}"/>
@@ -94,22 +79,34 @@
 	<target name="copy" >
 
 		<!-- See if variant ane dir exists, else copy normal ane -->
+		<fileset id="config_ane" dir="${common.basedir}/${output.dir}">
+			<include name="${package.ane}" />
+		</fileset>
 		<fileset id="variant_ane" dir="${common.basedir}/${output.dir}">
 			<include name="${airpackage.variant}/*.ane" />
 		</fileset>
 		<fileset id="normal_ane" dir="${common.basedir}/${output.dir}">
 			<include name="*.ane" />
 		</fileset>
+		<pathconvert refid="config_ane" property="use_config_ane" setonempty="false"/>
 		<pathconvert refid="variant_ane" property="use_variant_ane" setonempty="false"/>
 		<if>
-			<isset property="use_variant_ane" />
+			<isset property="use_config_ane" />
 			<then>
-				<copy todir="${airpackage.sourcedir}/${output.dir}/ane" flatten="true" overwrite="true" >
-					<fileset refid="variant_ane"/>
+				<copy todir="${airpackage.basedir}/${output.dir}/ane" flatten="true" overwrite="true" >
+					<fileset refid="config_ane"/>
 				</copy>
 			</then>
+			<elseif>
+				<isset property="use_variant_ane" />
+				<then>
+					<copy todir="${airpackage.basedir}/${output.dir}/ane" flatten="true" overwrite="true" >
+						<fileset refid="variant_ane"/>
+					</copy>
+				</then>
+			</elseif>
 			<else>
-				<copy todir="${airpackage.sourcedir}/${output.dir}/ane" flatten="true" overwrite="true" >
+				<copy todir="${airpackage.basedir}/${output.dir}/ane" flatten="true" overwrite="true" >
 					<fileset refid="normal_ane"/>
 				</copy>
 			</else>
@@ -118,14 +115,14 @@
 		<if>
 			<available file="${common.basedir}/${output.dir}/${airpackage.variant}/assets"/>
 			<then>
-				<copy todir="${airpackage.sourcedir}/${output.dir}/assets" overwrite="true" includeEmptyDirs="false" failonerror="false">
+				<copy todir="${airpackage.basedir}/${output.dir}/assets" overwrite="true" includeEmptyDirs="false" failonerror="false">
 					<fileset dir="${common.basedir}/${output.dir}/${airpackage.variant}/assets">
 						<include name="**" />
 					</fileset>
 				</copy>
 			</then>
 			<else>
-				<copy todir="${airpackage.sourcedir}/${output.dir}/assets" overwrite="true" includeEmptyDirs="false" failonerror="false">
+				<copy todir="${airpackage.basedir}/${output.dir}/assets" overwrite="true" includeEmptyDirs="false" failonerror="false">
 					<fileset dir="${common.basedir}/${output.dir}/assets">
 						<include name="**" />
 					</fileset>
@@ -134,7 +131,7 @@
 		</if>
 
 		
-		<copy todir="${airpackage.sourcedir}/${output.dir}" overwrite="true" failonerror="false">
+		<copy todir="${airpackage.basedir}/${output.dir}" overwrite="true" failonerror="false">
 			<fileset dir="${common.basedir}/../..">
 				<include name="CHANGELOG.md" />
 				<include name="README.md" />
@@ -146,7 +143,7 @@
 				</tokenfilter>
 			</filterchain>
 		</copy>
-		<copy todir="${airpackage.sourcedir}/${output.dir}" overwrite="true" failonerror="false">
+		<copy todir="${airpackage.basedir}/${output.dir}" overwrite="true" failonerror="false">
 			<fileset dir="${common.basedir}">
 				<include name="CHANGELOG.md" />
 				<include name="README.md" />
@@ -158,8 +155,8 @@
 				</tokenfilter>
 			</filterchain>
 		</copy>
-		<copy todir="${airpackage.sourcedir}/${output.dir}" overwrite="true" >
-			<fileset dir="${airpackage.sourcedir}">
+		<copy todir="${airpackage.basedir}/${output.dir}" overwrite="true" >
+			<fileset dir="${airpackage.basedir}">
 				<include name="package.json" />
 				<include name="CHANGELOG.md" />
 				<include name="README.md" />
@@ -178,7 +175,7 @@
 					<replacestring from="@PACKAGE@" to="${package.name}"/>
 					<replacestring from="@DATE@" to="${publish_date}"/>
 					<replacestring from="@DATETIME@" to="${publish_date_time}"/>
-					<replacestring from="@VARIANT@" to="${airpackage.variant}"/>
+					<replacestring from="@VARIANT@" to="${airpackage.variantname}"/>
 					<replacestring from="@ANDROIDPACKAGE@" to="${package.name}"/>
 					<replacestring from="@ANDROIDMINSDK@" to="${android.minSdkVersion}"/>
 					<replacestring from="@ANDROIDTARGETSDK@" to="${android.targetSdkVersion}"/>
@@ -190,7 +187,7 @@
 
 	<target name="build_android" >
 		
-		<fileset dir="${common.basedir}/${android.dir}/externals/" erroronmissingdir="false" id="filesetexternals" >
+		<fileset dir="${common.basedir}/${android.dir}/externals/${airpackage.variant}" erroronmissingdir="false" id="filesetexternals" >
 			<include name="*.aar" />
 		</fileset>
 		<fileset dir="${common.basedir}/${android.dir}/libs/${airpackage.variant}" erroronmissingdir="false" id="filesetvariant">
@@ -200,8 +197,7 @@
 			<include name="*.aar" />
 		</fileset>
 		<foreach target="explode_aar" param="explode_aar_file">
-			<param name="airpackage.sourcedir" value="${airpackage.sourcedir}" />
-			<param name="airpackage.variant" value="${airpackage.variant}" />
+			<param name="airpackage.basedir" value="${airpackage.basedir}" />
 			<path>
 				<union>
 					<resources refid="filesetexternals" />
@@ -217,15 +213,14 @@
 	<target name="explode_aar">
 		<basename property="explode_aar_name" file="${explode_aar_file}" suffix=".aar" />
 		<echo message="explode ${explode_aar_file} ${explode_aar_name}" />
-
 		<mkdir dir="${airpackage.basedir}/${output.tmpdir}/${explode_aar_name}" />
 		<unzip src="${explode_aar_file}" dest="${airpackage.basedir}/${output.tmpdir}/${explode_aar_name}" overwrite="true"/>
-		<copy overwrite="true" failonerror="false" quiet="true" todir="${airpackage.sourcedir}/${output.dir}/platforms/android/${explode_aar_name}" >
+		<copy overwrite="true" failonerror="false" quiet="true" todir="${airpackage.basedir}/${output.dir}/platforms/android/${explode_aar_name}" >
 			<fileset dir="${airpackage.basedir}/${output.tmpdir}/${explode_aar_name}" >
 				<include name="AndroidManifest.xml" />
 			</fileset>
 		</copy>
-		<copy overwrite="true" failonerror="false" quiet="true" todir="${airpackage.sourcedir}/${output.dir}/assets/android" >
+		<copy overwrite="true" failonerror="false" quiet="true" todir="${airpackage.basedir}/${output.dir}/assets/android" >
 			<fileset dir="${airpackage.basedir}/${output.tmpdir}/${explode_aar_name}/assets" >
 				<include name="**" />
 			</fileset>
@@ -237,82 +232,29 @@
 	<!-- BUILD -->
 
 	<target name="build" depends="clean" >
-		<antcall target="build_android" >
-			<param name="airpackage.sourcedir" value="${airpackage.basedir}" />
-			<param name="airpackage.variant" value="" />
-		</antcall>
-
-		<antcall target="copy_template" >
-			<param name="airpackage.sourcedir" value="${airpackage.basedir}" />
-			<param name="airpackage.variant" value="" />
-		</antcall>
-		<antcall target="copy" >
-			<param name="airpackage.sourcedir" value="${airpackage.basedir}" />
-			<param name="airpackage.variant" value="" />
-		</antcall>
+		<antcall target="build_android" />
+		<antcall target="copy_template" />
+		<antcall target="copy" />
 		<exec executable="apm" dir="${airpackage.basedir}">
 			<arg line="build build" />
 		</exec>
-
-		<!-- Build variants -->
-		<antcall target="build_variants" />
-
-	</target>
-
-	<target name="build_variants" >
-		<foreach target="build_variant" param="variant.basedir" inheritall="true" >
-			<path>
-				<dirset dir="${airpackage.basedir}">
-					<include name="variants/*"/>
-				</dirset>
-			</path>
-		</foreach>
-	</target>
-
-	<target name="build_variant" >
-		<basename property="variant.name" file="${variant.basedir}"/>
-		
-		<echo message="BUILD VARIANT: ${variant.name}" />
-
-		<antcall target="build_android" >
-			<param name="airpackage.sourcedir" value="${variant.basedir}" />
-			<param name="airpackage.variant" value="${variant.name}" />
-		</antcall>
-
-		<antcall target="copy_template" >
-			<param name="airpackage.sourcedir" value="${variant.basedir}" />
-			<param name="airpackage.variant" value="${variant.name}" />
-		</antcall>
-		<antcall target="copy" >
-			<param name="airpackage.sourcedir" value="${variant.basedir}" />
-			<param name="airpackage.variant" value="${variant.name}" />
-		</antcall>
-		<exec executable="apm" dir="${variant.basedir}">
-			<arg line="build build" />
-		</exec>
-
 	</target>
 
 
-
-
-
-
-
-
+	
 	<!-- DEPLOY -->
 
 	<target name="deploy" depends="build">
 		<foreach target="deploy_package" param="packagefile" inheritall="true">
 			<path>
 				<fileset dir="${airpackage.basedir}">
-					<include name="**/**/*.airpackage"/>
+					<include name="*.airpackage"/>
 				</fileset>
 			</path>
 		</foreach>
 	</target>
 
-	<target name="deploy_package" >
+	<target name="deploy_package">
 		<echo message="deploying to ${github.repo} v${version.release} ${packagefile}" />
 		<!-- Upload to github release -->
 		<exec executable="gh" failonerror="true">
@@ -325,7 +267,5 @@
 			<arg line="publish ${packagefile}" />
 		</exec>
 	</target>
-
-
 
 </project>
