@@ -22,12 +22,12 @@ public class MemoryEvent
 	public static final String LOWMEMORYWARNING	 = "memory:lowmemorywarning";
 
 
-	public static String formatForEvent( String type )
+	public static String formatForEvent( String level )
 	{
 		try
 		{
 			JSONObject e = new JSONObject();
-			e.putOpt( "type", type );
+			e.putOpt( "level", level );
 			return e.toString();
 		}
 		catch (Exception e)

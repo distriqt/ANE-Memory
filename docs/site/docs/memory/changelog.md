@@ -1,5 +1,12 @@
 
 
+###### 2023.09.22 [v4.2.2]
+
+```
+fix(android): correct name of value for memory warning level
+```
+
+
 ###### 2023.09.22 [v4.2.1]
 
 ```
